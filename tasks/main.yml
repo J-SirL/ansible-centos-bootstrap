@@ -1,6 +1,6 @@
 ---
 # tasks file for centos-bootstrap
-- include: bootstrap.yml
+- include_tasks: bootstrap.yml
   when: bootstrap_operation == 'bootstrap'
-- include: configure.yml
+- include_tasks: configure.yml
   when: bootstrap_operation == 'configure'

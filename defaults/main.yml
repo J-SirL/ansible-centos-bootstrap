@@ -1,6 +1,8 @@
 ---
-bootstrap_username: deploy
-bootstrap_sshkey: ~/.ssh/id_rsa.pub
+bootstrap_username: deploya
+bootstrap_sshkey: "{{role_path}}/files/.ssh/{{bootstrap_username}}_rsa.pub"
 bootstrap_default_path: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 bootstrap_ssh_allowed_ips:
 - 127.0.0.1
+- 192.168.1.70
+bootstap_systemdescription:
