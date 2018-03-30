@@ -1,19 +1,60 @@
-- name: Enable firewall
-  service:
-     name: firewalld
-     state: started
-     enabled: yes
+#- hosts: all
+- name: Pass variables to role
+  include_role:
+    name: firewall
+  vars:
+    firewall_rich_rules:
+      - source: 192.168.1.0/24
+        protocol: 'tcp'
+        dest_port: '22'
+      - source: 192.168.1.0/24
+        protocol: 'tcp'
+        dest_port: '443'
+    firewall_strict: yes
+    firewall_allowed_tcp_ports:
+      - 22
+      - 80
+      - 443
+    firewall_allowed_udp_ports:
+      - 123
+      - 67
+
+
+  
+ # vars:
+  #    firewall_rich_rules:
+  #      - source: 192.168.40.64/29
+  ##        protocol: 'tcp'
+    #      dest_port: '22'
+#
+ #       - source: 192.168.41.0/24
+  #        protocol: 'tcp'
+   #       dest_port: '443'
+
+ # roles:
+ #   - role: firewall
+ #     firewall_strict: yes
+ #     firewall_allowed_tcp_ports:
+ #         - 22
+ #         - 80
+ ##         - 443
+  #    firewall_allowed_udp_ports:
+  #        - 123
+  #        - 67
+
+#- name: Enable firewall
+#  service:
+#     name: firewalld
+#     state: started
+#     enabled: yes
 
   #  rich_rule:'rule family="ipv4" source: address="{{ item[1] }}" service name="ssh" accept' permanent={{ item[0] }} state=enabled
-- name: Enable firewall from my ip
-  firewalld:
-    rich_rule: 'rule family="ipv4" source: address="{{ item[1] }}" service name="ssh" accept'
-    permanent: "{{ item[0] }}"
-    state: enabled
-  with_nested:
-  - ['yes', 'no']
-  - bootstrap_ssh_allowed_ips
+#- name: Enable firewall from my ip
+#  firewalld:
+#    rich_rule: 'rule family="ipv4" source address="{{ item[1] }}" service name="ssh" accept'
+#    permanent: "{{ item[0] }}"
+#    state: enabled
+#  with_nested:
+ # - ['yes', 'no']
+ # - bootstrap_ssh_allowed_ips
 
-- name: Disable global ssh
-  firewalld: service=ssh permanent={{ item }} state=disabled
-  with_items: ['yes', 'no']

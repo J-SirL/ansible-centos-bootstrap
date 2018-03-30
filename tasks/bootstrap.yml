@@ -12,4 +12,9 @@
   authorized_key: user={{ bootstrap_username }}
                   key="{{ lookup('file', bootstrap_sshkey) }}"
 
+- name: Install Required Packages | deltarpm |
+  yum:
+    name: deltarpm
+    state: present
+
 

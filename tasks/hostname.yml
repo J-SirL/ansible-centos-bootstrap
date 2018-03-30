@@ -1,13 +1,14 @@
 - name: Set hostname
   command: hostnamectl set-hostname {{ inventory_hostname_short }}
 
-- name: Install "host" command
-  yum: name=bind-utils
+#- name: Install "host" command
+#  yum: name=bind-utils state=present
 
 
 - name: Get ip from hostname
-  shell: host -4 {{ inventory_hostname }} | cut -d ' ' -f 4
+  #shell: host -4 {{ inventory_hostname }} | cut -d ' ' -f 4
+  command: dnsdomainname -I
   register: host_ip
 
 - name: Update hosts
-  lineinfile: dest=/etc/hosts line="{{ host_ip.stdout_lines[0] }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
+  lineinfile: path=/etc/hosts line="{{ host_ip.stdout_lines[0] }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
