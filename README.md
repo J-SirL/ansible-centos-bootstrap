@@ -25,8 +25,7 @@ Name of admin account:
 
 Dependencies
 ------------
-
-none
+sdoran.firewall
 
 Usage
 -----

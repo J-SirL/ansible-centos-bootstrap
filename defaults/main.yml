@@ -5,4 +5,5 @@ bootstrap_default_path: /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/
 bootstrap_ssh_allowed_ips:
 - 127.0.0.1
 - 192.168.1.70
-bootstap_systemdescription: Hmmmm!
+#System Description
+bootstap_systemdescription: Ovirt Master host 

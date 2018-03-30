@@ -1,10 +1,10 @@
 ---
 galaxy_info:
-  author: Nicolas Goy
+  author: Nicolas Goy, " Updated By Johan Sörell 2018 "
   description:
-  company: Goyman SA
+  company: Goyman SA, S.T.Q Consulting AB
   license: MIT
-  min_ansible_version: 1.2
+  min_ansible_version: 2.4
   platforms:
   - name: EL
     versions:
