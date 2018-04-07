@@ -1,6 +1,8 @@
 ---
 # tasks file for centos-bootstrap
-- include_tasks: bootstrap.yml
+- name: BOOTSTRAPPING | Spacewalk
+  include_tasks: bootstrap.yml
   when: bootstrap_operation == 'bootstrap'
-- include_tasks: configure.yml
+- name: COFIGURE |  Spacewalk Configuring Task
+  include_tasks: configure.yml
   when: bootstrap_operation == 'configure'

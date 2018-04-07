@@ -1,17 +1,10 @@
-- name: Set static hostname 
+- name: Set static hostname
   command: hostnamectl set-hostname {{ inventory_hostname_short }} --static
 
 - name: Set Pretty  hostname
   command: 'hostnamectl set-hostname "{{ bootstap_systemdescription }}" --pretty'
 
-#- name: Install "host" command
-
-#- name: Install "host" command
-#  yum: name=bind-utils state=present
-
-
 - name: Get ip from hostname
-  #shell: host -4 {{ inventory_hostname }} | cut -d ' ' -f 4
   command: dnsdomainname -I
   register: host_ip
 

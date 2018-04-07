@@ -1,2 +1,6 @@
 ---
 # handlers file for centos-bootstrap
+#- name: Get ip from hostname
+  #shell: host -4 {{ inventory_hostname }} | cut -d ' ' -f 4
+#  command: dnsdomainname -I
+#  register: host_ip

@@ -3,13 +3,47 @@
   include_role:
     name: firewall
   vars:
+    bootstrap_ssh_allowed_ips:
+      - 127.0.0.1
+      - 192.168.1.70
+  #tasks:
+   # - name: Testa Rich Rule
     firewall_rich_rules:
-      - source: 192.168.1.0/24
-        protocol: 'tcp'
-        dest_port: '22'
-      - source: 192.168.1.0/24
-        protocol: 'tcp'
-        dest_port: '443'
+       - family: ipv4
+         source: '192.168.1.0/24'
+         #source: '"{{ item[0] }}"'
+         #192.168.1.0/24
+         protocol: 'tcp'
+         dest_port: '22'
+         permanent: "yes"
+         state: enabled
+       - source: 192.168.1.0/24
+         protocol: 'tcp'
+         dest_port: '443'
+         state: enabled
+    #with_nested:
+    #- "{{['yes', 'no']}}"
+    #- "{{ [bootstrap_ssh_allowed_ips] }}"
+    #- debug:
+    #    msg: "Testing Items - Multi-line args item on it's own and fully quoted {{ item }}"
+    #    with_nested:
+    #    - "{{[bootstrap_ssh_allowed_ips] }}"
+    #    - "{{ [1, 2, 3]}}"
+
+  #      source: 192.168.1.0/24
+   #     #"{{ item.source }}"
+    #    protocol: 'tcp'
+    #    service: 'ssh'
+    #    dest_port: "{{ item.port }}"
+    #    permanent: "{{ item.permanent }}"
+    #    #"'yes'
+    #    #'{{ item.0 }}'
+    #    state: enabled
+    #    with_nested:
+    #    - { port: '22', permanent: true }
+    #    - { port: '22', permanent: false }
+           # - ['yes', 'no']
+    #- { source: '"{{ bootstrap_ssh_allowed_ips }}" }
     firewall_strict: yes
     firewall_allowed_tcp_ports:
       - 22
@@ -18,29 +52,9 @@
     firewall_allowed_udp_ports:
       - 123
       - 67
+    # - name: Enable firewall from my ip
 
 
-  
- # vars:
-  #    firewall_rich_rules:
-  #      - source: 192.168.40.64/29
-  ##        protocol: 'tcp'
-    #      dest_port: '22'
-#
- #       - source: 192.168.41.0/24
-  #        protocol: 'tcp'
-   #       dest_port: '443'
-
- # roles:
- #   - role: firewall
- #     firewall_strict: yes
- #     firewall_allowed_tcp_ports:
- #         - 22
- #         - 80
- ##         - 443
-  #    firewall_allowed_udp_ports:
-  #        - 123
-  #        - 67
 
 #- name: Enable firewall
 #  service:
