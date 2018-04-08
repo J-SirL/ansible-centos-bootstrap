@@ -1,12 +1,44 @@
+- name: check if hostname is set
+  command: dnsdomainname -A
+  register: shorname_set
+  changed_when: false
+#DEBUG Variables
+- debug: var=shorname_set.stdout
+- debug: var=inventory_hostname_short
+  #vars:
+  #  - testar: Spacewalk01
+
 - name: Set static hostname
   command: hostnamectl set-hostname {{ inventory_hostname_short }} --static
+  #changed_when: not(shorname_set.stdout.find('inventory_hostname_short') != inventory_hostname_short )
+  when: not(shorname_set.stdout.find('inventory_hostname_short') != inventory_hostname_short )
+
+- name: Check if pretty hostname is set
+  command: egrep 'PRETTY_HOSTNAME="{{ bootstap_systemdescription }}"' /etc/machine-info
+  register: check_pretty_hostname
+  changed_when: no
 
 - name: Set Pretty  hostname
   command: 'hostnamectl set-hostname "{{ bootstap_systemdescription }}" --pretty'
+  when: check_pretty_hostname.rc != 0
 
 - name: Get ip from hostname
   command: dnsdomainname -I
   register: host_ip
+  changed_when: no
+
+- name: CHECK IF SERVER IS IN /etc/hosts
+  command: egrep "192.168.1.158  spacewalk01 spacewalk01.lan" /etc/hosts
+  register: checkhosts
+  check_mode: no
+  ignore_errors: yes
+  changed_when: no
+
+#DEBUG LINES
+- name: Greet the world if /tmp/my.conf contains "127.0.0.1"
+  debug: msg="Hello, world!"
+  when: checkhosts.rc == 0
 
 - name: Update hosts
   lineinfile: path=/etc/hosts line="{{ host_ip.stdout_lines[0] }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
+  when: checkhosts.rc != 0 
